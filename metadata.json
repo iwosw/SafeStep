@@ -1,0 +1,7 @@
+{
+  "name": "SafeStep - Digital Hygiene Hub",
+  "description": "An interactive platform for learning digital security, featuring OSINT simulations, phishing trainers, and privacy calculators, powered by Gemini.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

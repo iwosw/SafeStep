@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeStep — Твой цифровой путь</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'system';
+            const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primaryBlue: '#1e3c72',
+                        secondaryBlue: '#2a5298',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+        :root {
+            --primary-blue: #1e3c72;
+            --secondary-blue: #2a5298;
+            --bg-color: #fafaf9; /* Мягкий цвет бумаги */
+            --card-bg: #ffffff;
+            --text-main: #1c1c1c;
+            --text-muted: #555555;
+            --border-color: #e5e5e0;
+        }
+
+        .dark {
+            --bg-color: #020617;
+            --card-bg: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            transition: background-color 0.4s ease;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Telegraph Mode Styles */
+        .telegraph-content {
+            max-width: 740px;
+            margin: 0 auto;
+            font-family: 'Lora', serif; /* Сериф для лонгридов */
+            font-size: 1.35rem;
+            line-height: 1.85;
+            color: var(--text-main);
+        }
+        
+        .telegraph-content h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+        }
+
+        .telegraph-content h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.85rem;
+            font-weight: 800;
+            margin-top: 3.5rem;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .telegraph-content p {
+            margin-bottom: 1.75rem;
+        }
+
+        .telegraph-content ul, .telegraph-content ol {
+            margin-bottom: 2.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .telegraph-content li {
+            margin-bottom: 1rem;
+        }
+
+        .alert-box {
+            background: #fef3c7;
+            padding: 2rem;
+            border-radius: 1.5rem;
+            border-left: 8px solid #f59e0b;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            margin: 3rem 0;
+            color: #92400e;
+        }
+
+        .dark .alert-box {
+            background: rgba(146, 64, 14, 0.1);
+            border-left-color: #f59e0b;
+            color: #fbbf24;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        .container-box {
+            max-width: 1000px;
+            margin: -80px auto 80px;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .dark .container-box {
+            box-shadow: 0 0 80px rgba(0,0,0,0.6);
+            border-color: rgba(255,255,255,0.05);
+        }
+
+        .tab-btn {
+            padding: 0.75rem 2rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .tab-btn.active {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-color: #dbeafe;
+        }
+
+        .dark .tab-btn.active {
+            background: #1e293b;
+            color: #60a5fa;
+            border-color: #334155;
+        }
+
+        /* Reading progress bar */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #3b82f6;
+            z-index: 100;
+            transition: width 0.1s;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="reading-progress"></div>
+    <div id="root"></div>
+    <script>
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("reading-progress").style.width = scrolled + "%";
+        };
+    </script>
+</body>
+</html>
