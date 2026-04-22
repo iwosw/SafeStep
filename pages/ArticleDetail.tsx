@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { ARTICLES, BIG_ARTICLES_STORAGE } from '../constants';
 import { Layout } from './LayoutWrapper';
 import { IncognitoTool } from '../components/IncognitoTool';
@@ -12,6 +13,7 @@ import { GamingTool } from '../components/GamingTool';
 import { GeolocationTool } from '../components/GeolocationTool';
 import { PastRevisionTool } from '../components/PastRevisionTool';
 import { PasswordsTool } from '../components/PasswordsTool';
+import { grantAchievement, checkMilestones } from '../services/achievementEngine';
 
 const ArticleDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,10 +23,15 @@ const ArticleDetail: React.FC = () => {
 
   const markComplete = () => {
     if (!id) return;
-    const completed = JSON.parse(localStorage.getItem('completed_modules') || '[]');
+    const completedData = JSON.parse(localStorage.getItem('completed_modules') || '[]');
+    const completed = Array.isArray(completedData) ? completedData : [];
     if (!completed.includes(id)) {
-      completed.push(id);
-      localStorage.setItem('completed_modules', JSON.stringify(completed));
+      const newCompleted = [...completed, id];
+      localStorage.setItem('completed_modules', JSON.stringify(newCompleted));
+      
+      // Проверяем Milestone ачивки
+      checkMilestones(newCompleted.length);
+      
       window.dispatchEvent(new Event('storage'));
     }
   };
@@ -47,10 +54,11 @@ const ArticleDetail: React.FC = () => {
              <div className="mt-24 pt-12 border-t border-gray-200 dark:border-slate-800 text-center">
                 <button 
                   onClick={() => { markComplete(); setZenMode(false); window.scrollTo(0,0); }} 
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-14 py-5 rounded-full font-black shadow-2xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest"
+                  className="w-full md:w-auto md:min-w-[400px] bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 md:py-8 rounded-3xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-all text-lg md:text-xl uppercase tracking-widest"
                 >
                   Завершить чтение 🏁
                 </button>
+                <p className="mt-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Только нажатие этой кнопки засчитывает прохождение модуля</p>
              </div>
           </div>
         </div>
@@ -155,24 +163,22 @@ const ArticleDetail: React.FC = () => {
               </div>
             ))}
             <div className="text-center mt-10">
-                <button onClick={markComplete} className="text-[10px] font-black text-blue-500 uppercase tracking-widest hover:opacity-70 transition-opacity">Отметить как изученное ✅</button>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Прохождение засчитывается только после прочтения полного лонгрида во вкладке "Информация"</p>
             </div>
           </div>
         )}
 
         {activeTab === 'trainer' && (
           <div className="animate-in fade-in duration-500 min-h-[350px]">
-            {article.id === 'incognito' && <IncognitoTool onComplete={markComplete} />}
-            {/* Added onComplete prop to track completion */}
-            {article.id === 'smartphone_spy' && <SmartphoneSpyTool onComplete={markComplete} />}
-            {/* Added onComplete prop to track completion */}
-            {article.id === 'phishing' && <PhishingTrainer onComplete={markComplete} />}
-            {article.id === 'gaming' && <GamingTool onComplete={markComplete} />}
-            {article.id === 'geolocation' && <GeolocationTool onComplete={markComplete} />}
-            {article.id === 'photos_profiling' && <ProfilerTool onComplete={markComplete} />}
-            {article.id === 'final_summary' && <FinalTool onComplete={markComplete} />}
-            {article.id === 'past_revision' && <PastRevisionTool onComplete={markComplete} />}
-            {article.id === 'passwords' && <PasswordsTool onComplete={markComplete} />}
+            {article.id === 'incognito' && <IncognitoTool onComplete={() => grantAchievement('incognito_master', 'Разоблачитель инкогнито')} />}
+            {article.id === 'smartphone_spy' && <SmartphoneSpyTool onComplete={() => grantAchievement('spy_buster', 'Гроза шпионов')} />}
+            {article.id === 'phishing' && <PhishingTrainer onComplete={() => grantAchievement('phishing_master', 'Анти-Фишер')} />}
+            {article.id === 'gaming' && <GamingTool onComplete={() => grantAchievement('stealer_aware', 'Повелитель Стилеров')} />}
+            {article.id === 'geolocation' && <GeolocationTool onComplete={() => grantAchievement('geo_ninja', 'Призрак в городе')} />}
+            {article.id === 'photos_profiling' && <ProfilerTool onComplete={() => grantAchievement('osint_survivor', 'Неуловимый для OSINT')} />}
+            {article.id === 'final_summary' && <FinalTool onComplete={() => {}} />}
+            {article.id === 'past_revision' && <PastRevisionTool onComplete={() => grantAchievement('clean_past', 'Чистое прошлое')} />}
+            {article.id === 'passwords' && <PasswordsTool onComplete={() => grantAchievement('password_guru', 'Криптограф')} />}
           </div>
         )}
 

@@ -8,7 +8,8 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const updateProgress = () => {
-      const completed = JSON.parse(localStorage.getItem('completed_modules') || '[]');
+      const data = JSON.parse(localStorage.getItem('completed_modules') || '[]');
+      const completed = Array.isArray(data) ? data : [];
       const total = 9; // Total articles
       setProgress(Math.round((completed.length / total) * 100));
     };
@@ -22,7 +23,7 @@ export const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <nav className="navbar bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 py-4 sticky top-0 z-50 transition-colors">
+    <nav className="navbar bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 py-4 sticky top-0 z-50 transition-colors no-print">
       <div className="nav-container max-w-[1100px] mx-auto flex justify-between items-center px-5">
         <Link to="/" className="nav-logo text-2xl font-black text-[#1e3c72] dark:text-white flex items-center gap-2 tracking-tighter">
           <span>SafeStep<span className="text-[#fdbb2d]">.</span></span>
@@ -54,12 +55,37 @@ export const Navbar: React.FC = () => {
   );
 };
 
-export const Footer: React.FC = () => (
-  <footer className="main-footer bg-[#0a0a0a] text-[#888] py-16 px-5 transition-colors">
+export const Footer: React.FC = () => {
+  const [confirming, setConfirming] = useState(false);
+
+  const resetData = () => {
+    if (confirming) {
+        localStorage.clear();
+        window.dispatchEvent(new Event('storage'));
+        // Try to reload, but fallback if iframe blocks it
+        try {
+            window.location.reload();
+        } catch (e) {
+            window.location.href = '/';
+        }
+    } else {
+        setConfirming(true);
+        setTimeout(() => setConfirming(false), 3000);
+    }
+  };
+
+  return (
+  <footer className="main-footer bg-[#0a0a0a] text-[#888] py-16 px-5 transition-colors no-print">
     <div className="footer-container max-w-[1100px] mx-auto flex flex-col md:flex-row justify-between border-b border-white/5 pb-10 gap-10">
       <div className="footer-info">
         <h4 className="text-white text-3xl font-black mb-3">SafeStep<span className="text-[#fdbb2d]">.</span></h4>
         <p className="max-w-xs text-sm leading-relaxed">Образовательная платформа нового поколения для защиты твоей цифровой личности.</p>
+        <button 
+          onClick={resetData} 
+          className={`mt-6 text-[10px] uppercase font-black tracking-widest px-4 py-2 rounded-lg transition-all border ${confirming ? 'bg-red-500 text-white border-red-500' : 'text-red-500 hover:text-red-400 border-red-500/20 hover:bg-red-500/10'}`}
+        >
+          {confirming ? 'ТЫ УВЕРЕН? НАЖМИ ЕЩЕ РАЗ!' : 'Экстренный сброс данных'}
+        </button>
       </div>
       <div className="footer-dev text-sm flex flex-col gap-2">
         <p className="uppercase tracking-widest font-bold text-white/40 text-[10px]">Project Metadata</p>
@@ -71,4 +97,5 @@ export const Footer: React.FC = () => (
       &copy; 2026 SafeStep System. All protocols secured.
     </div>
   </footer>
-);
+  );
+};

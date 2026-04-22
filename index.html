@@ -112,15 +112,15 @@
             width: 100px;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.15;
+            opacity: 0.25;
             display: none;
         }
-        @media (min-width: 1400px) {
+        @media (min-width: 1024px) {
             .side-decoration { display: block; }
         }
 
-        .side-left { left: 5vw; }
-        .side-right { right: 5vw; }
+        .side-left { left: 3vw; }
+        .side-right { right: 3vw; }
 
         .data-pillar {
             height: 100%;
@@ -222,6 +222,27 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
             pointer-events: none;
             z-index: 20;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .certificate-card, .certificate-card * {
+                visibility: visible;
+            }
+            .certificate-card {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
         }
     </style>
 <script type="importmap">

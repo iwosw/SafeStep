@@ -3,6 +3,9 @@ import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'motion/react';
 import { Navbar, Footer } from './components/Layout';
+import { ToastManager } from './components/ToastManager';
+import { SideDecorations } from './components/home/SideDecorations';
+import { LiveThreatTicker } from './components/ui/LiveThreatTicker';
 import Home from './pages/Home';
 import Articles from './pages/Articles';
 import ArticleDetail from './pages/ArticleDetail';
@@ -12,7 +15,9 @@ const App: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pb-8"> {/* Padding bottom for ticker */}
+      <SideDecorations />
+      <ToastManager />
       <Navbar />
       <div className="flex-grow flex flex-col relative w-full">
         <AnimatePresence mode="wait">
@@ -26,6 +31,7 @@ const App: React.FC = () => {
         </AnimatePresence>
       </div>
       <Footer />
+      <LiveThreatTicker />
     </div>
   );
 };

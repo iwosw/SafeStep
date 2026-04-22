@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { QUIZ_DATA } from '../constants';
 import { Layout } from './LayoutWrapper';
+import { TiltCard } from '../components/ui/TiltCard';
 
 const Quiz: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -78,43 +79,47 @@ const Quiz: React.FC = () => {
                         <button onClick={() => setUserName(userName || 'Аноним')} className="w-full bg-blue-600 text-white py-6 rounded-3xl font-black text-xl shadow-2xl hover:scale-105 transition-all">Создать сертификат 💳</button>
                       </div>
                     ) : (
-                      <div className="certificate-card mx-auto max-w-2xl mb-12 bg-white dark:bg-slate-900 border-8 border-slate-100 dark:border-slate-800 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
-                        <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-                        <div className="flex justify-between items-start mb-12">
-                          <div className="text-left">
-                            <h2 className="text-3xl font-black uppercase tracking-tighter text-slate-800 dark:text-white">SAFESTEP PASS</h2>
-                            <p className="text-[10px] font-mono opacity-40 uppercase tracking-widest mt-1">SER_ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
-                          </div>
-                          <div className="text-5xl">🛡️</div>
-                        </div>
-                        
-                        <div className="space-y-8 text-left">
-                          <div>
-                            <p className="text-[10px] uppercase font-black opacity-30 mb-2 tracking-widest">Holder Name</p>
-                            <p className="text-3xl font-black tracking-tight uppercase text-slate-900 dark:text-white">{userName}</p>
-                          </div>
-                          <div className="grid grid-cols-2 gap-10">
-                            <div>
-                              <p className="text-[10px] uppercase font-black opacity-30 mb-2 tracking-widest">Clearance Level</p>
-                              <p className="font-black text-2xl text-blue-600 dark:text-blue-400 leading-tight">{rank}</p>
+                      <TiltCard>
+                        <div className="certificate-card mx-auto max-w-2xl mb-12 bg-white dark:bg-slate-900 border-8 border-slate-100 dark:border-slate-800 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+                          <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                          <div className="flex justify-between items-start mb-12">
+                            <div className="text-left">
+                              <h2 className="text-3xl font-black uppercase tracking-tighter text-slate-800 dark:text-white">SAFESTEP PASS</h2>
+                              <p className="text-[10px] font-mono opacity-40 uppercase tracking-widest mt-1">SER_ID: {Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
                             </div>
+                            <div className="text-5xl">🛡️</div>
+                          </div>
+                          
+                          <div className="space-y-8 text-left">
                             <div>
-                              <p className="text-[10px] uppercase font-black opacity-30 mb-2 tracking-widest">Efficiency</p>
-                              <p className="font-black text-2xl text-slate-900 dark:text-white">{Math.round((score/QUIZ_DATA.length)*100)}%</p>
+                              <p className="text-[10px] uppercase font-black opacity-30 mb-2 tracking-widest">Holder Name</p>
+                              <p className="text-3xl font-black tracking-tight uppercase text-slate-900 dark:text-white">{userName}</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-10">
+                              <div>
+                                <p className="text-[10px] uppercase font-black opacity-30 mb-2 tracking-widest">Clearance Level</p>
+                                <p className="font-black text-2xl text-blue-600 dark:text-blue-400 leading-tight">{rank}</p>
+                              </div>
+                              <div>
+                                <p className="text-[10px] uppercase font-black opacity-30 mb-2 tracking-widest">Efficiency</p>
+                                <p className="font-black text-2xl text-slate-900 dark:text-white">{Math.round((score/QUIZ_DATA.length)*100)}%</p>
+                              </div>
                             </div>
                           </div>
+                          
+                          <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
+                            <p className="text-[10px] font-mono opacity-30 uppercase tracking-[0.4em]">Digital Hygiene Certified • 2026 • Global Protocol Verified</p>
+                          </div>
                         </div>
-                        
-                        <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
-                          <p className="text-[10px] font-mono opacity-30 uppercase tracking-[0.4em]">Digital Hygiene Certified • 2026 • Global Protocol Verified</p>
-                        </div>
-                      </div>
+                      </TiltCard>
                     )}
                     
                     {userName && (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto">
-                        <button onClick={() => window.location.reload()} className="bg-blue-600 text-white py-5 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all uppercase tracking-widest text-xs">Повторить ↻</button>
-                        <a href="#/articles" className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-white py-5 rounded-2xl font-black shadow-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-all uppercase tracking-widest text-xs text-center">Вернуться в базу</a>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-lg mx-auto no-print mt-8">
+                        <button onClick={() => window.print()} className="bg-slate-900 border border-slate-700 text-white py-5 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all outline-none flex items-center justify-center gap-2">
+                           Скачать / PDF 🖨️
+                        </button>
+                        <a href="#/articles" className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-white py-5 rounded-2xl font-black shadow-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-all uppercase tracking-widest text-xs text-center flex items-center justify-center">В базу знаний</a>
                       </div>
                     )}
                 </div>

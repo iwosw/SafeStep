@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
+import { Navbar, Footer } from '../components/Layout';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,3 +24,4 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     </motion.div>
   );
 };
+

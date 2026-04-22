@@ -32,7 +32,7 @@ export const ARTICLES: Article[] = [
     title: "Гейминг без взломов",
     emoji: "🎮",
     subtitle: "Защита аккаунтов в Steam, Epic и Discord",
-    description: "Как защитить аккаунты в Steam, Epic и не попасть на фишинг.",
+    description: "Как защитить аккаунты в Steam, Epic, не попасть на фишинг и избежать стилеров.",
     type: 'gaming'
   },
   {
