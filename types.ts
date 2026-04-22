@@ -5,7 +5,7 @@ export interface Article {
   emoji: string;
   subtitle: string;
   description: string;
-  type: 'past_revision' | 'passwords' | 'incognito' | 'gaming' | 'geolocation' | 'smartphone_spy' | 'phishing' | 'aiandyourphotos' | 'final_summary';
+  type: 'past_revision' | 'passwords' | 'incognito' | 'gaming' | 'geolocation' | 'smartphone_spy' | 'phishing' | 'photos_profiling' | 'final_summary';
 }
 
 export interface QuizQuestion {

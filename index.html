@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeStep — Твой цифровой путь</title>
+    <title>SafeStep - Твой цифровой путь</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         (function() {
@@ -28,6 +28,30 @@
                     animation: {
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 8s ease-in-out 2s infinite',
+                        'spin-slow': 'spin 12s linear infinite',
+                        'hologram': 'hologram 2s ease-in-out infinite',
+                        'data-stream': 'dataStream 10s linear infinite',
+                    },
+                    keyframes: {
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' },
+                        },
+                        hologram: {
+                            '0%, 100%': { opacity: '0.4', filter: 'brightness(1) contrast(1.2)' },
+                            '50%': { opacity: '0.8', filter: 'brightness(1.5) contrast(1.5)' },
+                        },
+                        dataStream: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        }
                     }
                 }
             }
@@ -39,17 +63,17 @@
         :root {
             --primary-blue: #1e3c72;
             --secondary-blue: #2a5298;
-            --bg-color: #fafaf9; /* Мягкий цвет бумаги */
-            --card-bg: #ffffff;
-            --text-main: #1c1c1c;
-            --text-muted: #555555;
-            --border-color: #e5e5e0;
+            --bg-color: #f7f7f2;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1a1a1a;
+            --text-muted: #5f6368;
+            --border-color: #ededdf;
         }
 
         .dark {
             --bg-color: #020617;
-            --card-bg: #0f172a;
-            --text-main: #f8fafc;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: #1e293b;
         }
@@ -60,115 +84,144 @@
             color: var(--text-main);
             transition: background-color 0.4s ease;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        /* Telegraph Mode Styles */
-        .telegraph-content {
-            max-width: 740px;
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff !important;
+            perspective: 1000px;
+        }
+
+        .hero-gradient h1, .hero-gradient p, .hero-gradient span {
+            color: #ffffff !important;
+        }
+
+        /* Side Cyber Elements - The "Gutters" */
+        .side-decoration {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+            display: none;
+        }
+        @media (min-width: 1400px) {
+            .side-decoration { display: block; }
+        }
+
+        .side-left { left: 5vw; }
+        .side-right { right: 5vw; }
+
+        .data-pillar {
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #3b82f6, transparent);
+            position: relative;
             margin: 0 auto;
-            font-family: 'Lora', serif; /* Сериф для лонгридов */
-            font-size: 1.35rem;
-            line-height: 1.85;
+        }
+
+        .data-node {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+            transform: rotate(45deg);
+            position: absolute;
+            left: -19px;
+            backdrop-filter: blur(4px);
+        }
+
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg);
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            top: 0%;
+            left: -50%;
+            z-index: -1;
+            mask-image: linear-gradient(to bottom, black, transparent);
+            pointer-events: none;
+        }
+
+        .card-3d {
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-3d:hover {
+            transform: translateY(-8px) rotateX(3deg) rotateY(-1deg);
+        }
+
+        .hologram-circle {
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2), inset 0 0 20px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Container standardization */
+        .container-box {
+            max-width: 1040px;
+            margin: -90px auto 90px;
+            padding: 3rem;
+            border-radius: 3rem;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+        @media (max-width: 768px) {
+            .container-box { margin: -60px 16px 60px; padding: 1.5rem; border-radius: 2rem; }
+        }
+
+        .telegraph-content {
+            max-width: 760px;
+            margin: 0 auto;
+            font-family: 'Lora', serif;
+            font-size: 1.25rem;
+            line-height: 1.8;
             color: var(--text-main);
         }
         
         .telegraph-content h2 {
             font-family: 'Inter', sans-serif;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 2rem;
             line-height: 1.1;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.05em;
         }
 
         .telegraph-content h3 {
             font-family: 'Inter', sans-serif;
-            font-size: 1.85rem;
+            font-size: 1.75rem;
             font-weight: 800;
-            margin-top: 3.5rem;
-            margin-bottom: 1.25rem;
-            letter-spacing: -0.02em;
-        }
-
-        .telegraph-content p {
-            margin-bottom: 1.75rem;
-        }
-
-        .telegraph-content ul, .telegraph-content ol {
-            margin-bottom: 2.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .telegraph-content li {
+            margin-top: 3rem;
             margin-bottom: 1rem;
+            letter-spacing: -0.03em;
         }
 
-        .alert-box {
-            background: #fef3c7;
-            padding: 2rem;
-            border-radius: 1.5rem;
-            border-left: 8px solid #f59e0b;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            margin: 3rem 0;
-            color: #92400e;
-        }
-
-        .dark .alert-box {
-            background: rgba(146, 64, 14, 0.1);
-            border-left-color: #f59e0b;
-            color: #fbbf24;
-        }
-
-        .hero-gradient {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        }
-
-        .container-box {
-            max-width: 1000px;
-            margin: -80px auto 80px;
-            background: var(--card-bg);
-            padding: 3rem;
-            border-radius: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border-color);
-        }
-
-        .dark .container-box {
-            box-shadow: 0 0 80px rgba(0,0,0,0.6);
-            border-color: rgba(255,255,255,0.05);
-        }
-
-        .tab-btn {
-            padding: 0.75rem 2rem;
-            border-radius: 1rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
-        }
-
-        .tab-btn.active {
-            background: #eff6ff;
-            color: #1d4ed8;
-            border-color: #dbeafe;
-        }
-
-        .dark .tab-btn.active {
-            background: #1e293b;
-            color: #60a5fa;
-            border-color: #334155;
-        }
-
-        /* Reading progress bar */
-        #reading-progress {
-            position: fixed;
+        .scanline-overlay {
+            position: absolute;
             top: 0;
             left: 0;
-            height: 4px;
-            background: #3b82f6;
-            z-index: 100;
-            transition: width 0.1s;
+            width: 100%;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            pointer-events: none;
+            z-index: 20;
         }
     </style>
 <script type="importmap">
@@ -177,22 +230,15 @@
     "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
     "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="reading-progress"></div>
     <div id="root"></div>
-    <script>
-        window.onscroll = function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("reading-progress").style.width = scrolled + "%";
-        };
-    </script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>

@@ -9,7 +9,8 @@ interface AppTask {
   explanation: string;
 }
 
-export const SmartphoneSpyTool: React.FC = () => {
+// Added onComplete prop to support marking the module as finished
+export const SmartphoneSpyTool: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
   const [score, setScore] = useState(0);
   const [currentAppIdx, setCurrentAppIdx] = useState(0);
   const [feedback, setFeedback] = useState<{ isCorrect: boolean, text: string } | null>(null);
@@ -53,6 +54,10 @@ export const SmartphoneSpyTool: React.FC = () => {
 
   const nextApp = () => {
     setFeedback(null);
+    // Notify parent when the last app is processed
+    if (currentAppIdx === apps.length - 1) {
+      if (onComplete) onComplete();
+    }
     setCurrentAppIdx((currentAppIdx + 1) % apps.length);
   };
 
@@ -61,12 +66,20 @@ export const SmartphoneSpyTool: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h3 className="text-2xl font-black text-[#1e3c72]">Аудит разрешений 📱</h3>
-        <p className="text-gray-500">Реши: разрешить или запретить доступ приложению? Счет: {score}</p>
+        <h3 className="text-2xl font-black text-[#1e3c72] dark:text-blue-400">Аудит разрешений 📱</h3>
+        <p className="text-slate-500 dark:text-slate-400">Реши: разрешить или запретить доступ приложению? Счет: {score}</p>
       </div>
 
-      <div className="bg-[#1e1e26] p-8 rounded-[40px] shadow-2xl border-4 border-[#333] relative">
-        <div className="flex flex-col items-center gap-6">
+      <div className="bg-[#1e1e26] p-8 rounded-[40px] shadow-2xl border-4 border-[#333] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <img 
+            src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=1200&fit=crop" 
+            className="w-full h-full object-cover" 
+            alt="Smartphone Background" 
+            referrerPolicy="no-referrer"
+          />
+        </div>
+        <div className="flex flex-col items-center gap-6 relative z-10">
           <div className="w-24 h-24 bg-white/10 rounded-3xl flex items-center justify-center text-5xl shadow-inner">
             {currentApp.icon}
           </div>

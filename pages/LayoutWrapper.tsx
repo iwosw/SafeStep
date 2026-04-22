@@ -1,7 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Navbar, Footer } from '../components/Layout';
-import { CyberMentor } from '../components/CyberMentor';
+import { motion } from 'motion/react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,13 +12,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-grow">
-        {children}
-      </div>
-      <CyberMentor />
-      <Footer />
-    </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 15, filter: 'blur(4px)' }}
+      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, y: -15, filter: 'blur(4px)', transition: { duration: 0.2 } }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="flex-grow flex flex-col w-full h-full"
+    >
+      {children}
+    </motion.div>
   );
 };

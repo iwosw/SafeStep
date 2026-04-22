@@ -6,9 +6,8 @@ import { gaming_content } from './gaming';
 import { geolocation_content } from './geolocation';
 import { smartphone_spy_content } from './smartphone_spy';
 import { phishing_content } from './phishing';
-import { ai_photos_content } from './ai_photos';
+import { photos_profiling_content } from './photos_profiling';
 import { final_summary_content } from './final';
-
 export const BIG_ARTICLES_STORAGE: Record<string, string> = {
     "past_revision": past_revision_content,
     "passwords": passwords_content,
@@ -17,6 +16,6 @@ export const BIG_ARTICLES_STORAGE: Record<string, string> = {
     "geolocation": geolocation_content,
     "smartphone_spy": smartphone_spy_content,
     "phishing": phishing_content,
-    "aiandyourphotos": ai_photos_content,
+    "photos_profiling": photos_profiling_content,
     "final_summary": final_summary_content
 };

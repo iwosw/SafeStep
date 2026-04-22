@@ -1,19 +1,32 @@
 
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'motion/react';
+import { Navbar, Footer } from './components/Layout';
 import Home from './pages/Home';
 import Articles from './pages/Articles';
 import ArticleDetail from './pages/ArticleDetail';
 import Quiz from './pages/Quiz';
 
 const App: React.FC = () => {
+  const location = useLocation();
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/articles" element={<Articles />} />
-      <Route path="/article/:id" element={<ArticleDetail />} />
-      <Route path="/quiz" element={<Quiz />} />
-    </Routes>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-grow flex flex-col relative w-full">
+        <AnimatePresence mode="wait">
+          {/* @ts-ignore - React Router typings sometimes complain about key, but it's required for AnimatePresence */}
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Home />} />
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/article/:id" element={<ArticleDetail />} />
+            <Route path="/quiz" element={<Quiz />} />
+          </Routes>
+        </AnimatePresence>
+      </div>
+      <Footer />
+    </div>
   );
 };
 
