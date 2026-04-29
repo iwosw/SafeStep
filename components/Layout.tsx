@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <nav className="navbar bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 py-4 sticky top-0 z-50 transition-colors no-print">
+    <nav className="navbar bg-white/80 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 py-4 relative z-50 transition-colors no-print">
       <div className="nav-container max-w-[1100px] mx-auto flex justify-between items-center px-5">
         <Link to="/" className="nav-logo text-2xl font-black text-[#1e3c72] dark:text-white flex items-center gap-2 tracking-tighter">
           <span>SafeStep<span className="text-[#fdbb2d]">.</span></span>
