@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"] # или "master", в зависимости от названия вашей главной ветки
+    branches: ["master"] # или "master", в зависимости от названия вашей главной ветки
 
 # Даем права для деплоя в Pages
 permissions:
